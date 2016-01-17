@@ -5,3 +5,7 @@ Below is the main features
 1. Self defined exceptions and these exceptions will be handlered by @ControllerAdvice
 2. ApplicationEvent and ApplicationListener
 3. Send and Consume Jason format in @RestController
+
+Jan 17,2016
+1.Remove spring-servlet.xml and web.xml
+2.Use JavaConfig to replace these two config files
