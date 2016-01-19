@@ -14,7 +14,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 // @EnableSwagger
 @ComponentScan(basePackages = { "com.shuai.demo" })
-@PropertySource("classpath:security.properties")
 public class MvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
