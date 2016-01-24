@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  
 @XmlRootElement (name = "employee")
 @XmlAccessorType(XmlAccessType.NONE)
-public class EmployeeVO implements Serializable
+public class Employee implements Serializable
 {
     private static final long serialVersionUID = 1L;
  
@@ -26,7 +26,7 @@ public class EmployeeVO implements Serializable
     @XmlElement
     private String email;
      
-    public EmployeeVO(Integer id, String firstName, String lastName, String email) {
+    public Employee(Integer id, String firstName, String lastName, String email) {
         super();
         this.id = id;
         this.firstName = firstName;
@@ -34,7 +34,7 @@ public class EmployeeVO implements Serializable
         this.email = email;
     }
      
-    public EmployeeVO(){
+    public Employee(){
          
     }
  
