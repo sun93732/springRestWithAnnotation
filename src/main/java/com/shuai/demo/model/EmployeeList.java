@@ -6,15 +6,15 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
  
 @XmlRootElement (name="employees")
-public class EmployeeListVO
+public class EmployeeList
 {
-    private List<EmployeeVO> employees = new ArrayList<EmployeeVO>();
+    private List<Employee> employees = new ArrayList<Employee>();
  
-    public List<EmployeeVO> getEmployees() {
+    public List<Employee> getEmployees() {
         return employees;
     }
  
-    public void setEmployees(List<EmployeeVO> employees) {
+    public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
 }
