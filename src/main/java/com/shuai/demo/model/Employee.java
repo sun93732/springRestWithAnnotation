@@ -1,29 +1,38 @@
 package com.shuai.demo.model;
  
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+
+
  
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
- 
-@XmlRootElement (name = "employee")
-@XmlAccessorType(XmlAccessType.NONE)
+@Entity
+@Table(name="tbl_employee")
 public class Employee implements Serializable
 {
     private static final long serialVersionUID = 1L;
  
-    @XmlAttribute
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer id;
-     
-    @XmlElement
+    
+    @Version
+    @Column(name="version")
+    private Integer version;
+    
     private String firstName;
      
-    @XmlElement
+    
     private String lastName;
      
-    @XmlElement
+    @NotNull
     private String email;
      
     public Employee(Integer id, String firstName, String lastName, String email) {
