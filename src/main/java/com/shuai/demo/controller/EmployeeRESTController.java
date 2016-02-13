@@ -1,6 +1,6 @@
 package com.shuai.demo.controller;
 
-import javax.validation.Valid;
+import javax.annotation.Resource;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
@@ -15,17 +15,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.shuai.demo.event.EmployeeEvent;
-import com.shuai.demo.exception.BadRequestException;
-import com.shuai.demo.exception.ResourceNotFoundException;
+
+import com.shuai.demo.dao.EmployeeDao;
 import com.shuai.demo.model.Employee;
 import com.shuai.demo.model.EmployeeList;
+import com.shuai.demo.model.event.EmployeeEvent;
+import com.shuai.demo.model.exception.BadRequestException;
+import com.shuai.demo.model.exception.ResourceNotFoundException;
 
 @RestController
 public class EmployeeRESTController implements ApplicationEventPublisherAware {
 
 	// one subclass of ApplicationListener will be listening for this event.
 	private ApplicationEventPublisher publisher;
+	
+	@Resource
+	private EmployeeDao dao;
 
 	private static EmployeeList employees = new EmployeeList();
 	static {
@@ -63,46 +68,67 @@ public class EmployeeRESTController implements ApplicationEventPublisherAware {
 	}
 
 	/**
-	 * Most of the time the @Valid & @Validated can interchange. one is from javax, while the other Spring.
+	 * Most of the time the @Valid & @Validated can interchange. one is from
+	 * javax, while the other Spring.
+	 * 
 	 * @param id
 	 * @param entity
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
-	@RequestMapping(value = "/employees/{id}", method = RequestMethod.PUT, 
-			consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.OK)	
-	public Employee updateEmployee(@PathVariable("id") int id, 
-			 @RequestBody @Validated Employee entity) throws ResourceNotFoundException
-  {
+	@RequestMapping(value = "/employees/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
+	public Employee updateEmployee(@PathVariable("id") int id,
+			@RequestBody @Validated Employee entity)
+			throws ResourceNotFoundException {
 
-    /*
-     * f we don't have @RequestBody, the fields of entity will be null .....
-     * Need to put some validator instance to the classpath like
-     * hibernate-validator, or else the validationfactory won't work check the
-     * beanValidation() method in ServiceConfig.java
-     */
+		/*
+		 * f we don't have @RequestBody, the fields of entity will be null .....
+		 * Need to put some validator instance to the classpath like
+		 * hibernate-validator, or else the validationfactory won't work check
+		 * the beanValiidation() method in ServiceConfig.java
+		 */
 
-    if (!entity.getId().equals(id)) {
-      throw new BadRequestException("id", "the id must be the same");
-    }
-    boolean found = false;
-    for (Employee emp : employees.getEmployees()) {
-      if (emp.getId().equals(entity.getId())) {
-        emp.setEmail(entity.getEmail());
-        emp.setFirstName(entity.getFirstName());
-        emp.setLastName(entity.getLastName());
-        entity = emp;
-        found = true;
-        break;
-      }
-    }
-    if (!found) {
-      throw new ResourceNotFoundException("not found");
-    }
-    publisher.publishEvent(new EmployeeEvent(this, entity));
-    return entity;
-  }
+		if (!entity.getId().equals(id)) {
+			throw new BadRequestException("id", "the id must be the same");
+		}
+		boolean found = false;
+		for (Employee emp : employees.getEmployees()) {
+			if (emp.getId().equals(entity.getId())) {
+				emp.setEmail(entity.getEmail());
+				emp.setFirstName(entity.getFirstName());
+				emp.setLastName(entity.getLastName());
+				entity = emp;
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			throw new ResourceNotFoundException("not found");
+		}
+		publisher.publishEvent(new EmployeeEvent(this, entity));
+		return entity;
+	}
+	
+	
+	/**
+	 * Most of the time the @Valid & @Validated can interchange. one is from
+	 * javax, while the other Spring.
+	 * 
+	 * @param id
+	 * @param entity
+	 * @return
+	 * @throws ResourceNotFoundException
+	 */
+	@RequestMapping(value = "/employees", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
+	public Employee updateEmployee(@RequestBody @Validated Employee entity)
+			throws ResourceNotFoundException {
+    		return dao.createEmployee(entity);
+	}
+
+	// Greeting greeting(@RequestParam(value="name", defaultValue="World")
+	// String name) {
 
 	// You must override this method; It will give you acces to
 	// ApplicationEventPublisher

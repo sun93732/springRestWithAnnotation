@@ -1,4 +1,4 @@
-package com.shuai.demo.event;
+package com.shuai.demo.model.event;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;

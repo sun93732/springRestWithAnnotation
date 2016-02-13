@@ -1,4 +1,4 @@
-package com.shuai.demo.exception;
+package com.shuai.demo.model.exception;
 
 public class BadRequestException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
