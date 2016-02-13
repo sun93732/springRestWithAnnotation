@@ -9,3 +9,8 @@ Below is the main features
 Jan 17,2016
 1.Remove spring-servlet.xml and web.xml
 2.Use JavaConfig to replace these two config files
+
+Feb 13,2016
+1. Redesined the code packages 
+2. Added Dao and DaoImpl package
+3. Introduced EntityManager and JpaTransactionManager and MySQL
