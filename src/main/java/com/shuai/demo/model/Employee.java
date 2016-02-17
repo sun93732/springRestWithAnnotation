@@ -23,9 +23,9 @@ public class Employee implements Serializable
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer id;
     
-    @Version
+    /*@Version
     @Column(name="version")
-    private Integer version;
+    private Integer version;*/
     
     private String firstName;
      
