@@ -16,11 +16,10 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 public class ServiceConfig {
 	protected final static String MEMBER_SCHEMA = "test";
 	protected final static String MEMBER_PACKAGE = "com.shuai.demo.model";
-	
-	
+
 	@Value("${hibernate.ds.dialect}")
 	private String hibernateDialect;
-	
+
 	@Value("${hibernate.ds.driver}")
 	private String dsDriver;
 	@Value("${hibernate.ds.url}")
@@ -35,8 +34,8 @@ public class ServiceConfig {
 	private Integer dsMinPoolSize;
 	@Value("${hibernate.ds.maxpoolsize}")
 	private Integer dsMaxPoolSize;
-	
-	@Bean 
+
+	@Bean
 	public DatabaseProperties databaseProperties() {
 		DatabaseProperties props = new DatabaseProperties();
 		props.setUrl(dsUrl);
@@ -47,21 +46,22 @@ public class ServiceConfig {
 		props.setMaxPoolSize(dsMaxPoolSize);
 		props.setDialect(hibernateDialect);
 		props.setDriver(dsDriver);
-		props.setSchema(MEMBER_SCHEMA);		
+		props.setSchema(MEMBER_SCHEMA);
 		props.setPackageToScan(MEMBER_PACKAGE);
 		return props;
 	}
-  @Bean
-  Validator beanValidation() {
-      return new LocalValidatorFactoryBean();
-  }
-  
-  @Bean
+
+	@Bean
+	Validator beanValidation() {
+		return new LocalValidatorFactoryBean();
+	}
+
+	@Bean
 	public static PropertySourcesPlaceholderConfigurer properties() {
 		PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
-		Resource[] resources = new ClassPathResource[] { 
-				new ClassPathResource(ServiceConfig.class.getDeclaredAnnotation(PropertySource.class).value()[0].replaceFirst("classpath:", "")) 
-		};
+		Resource[] resources = new ClassPathResource[] {
+				new ClassPathResource(ServiceConfig.class.getDeclaredAnnotation(PropertySource.class).value()[0]
+						.replaceFirst("classpath:", "")) };
 		pspc.setLocations(resources);
 		pspc.setIgnoreUnresolvablePlaceholders(false);
 		return pspc;

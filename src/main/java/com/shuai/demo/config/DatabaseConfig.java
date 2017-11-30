@@ -87,6 +87,7 @@ public class DatabaseConfig
   }
   @Bean
   public DataSource dataSource() throws Exception {
+	 //datasource will be consumed by entitymanager
     BasicDataSource ds = new BasicDataSource();
     ds.setDriverClassName(this.dbProps.getDriver());
     ds.setUrl(this.dbProps.getUrl());

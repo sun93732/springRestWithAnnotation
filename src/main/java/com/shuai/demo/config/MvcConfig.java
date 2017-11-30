@@ -11,7 +11,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-// @EnableSwagger
 @ComponentScan(basePackages = { "com.shuai.demo" })
 public class MvcConfig extends WebMvcConfigurerAdapter {
 	@Override
